@@ -1,0 +1,27 @@
+# M4 Deployed Pipeline Thresholds
+# Selective Two-Stage TinyML Fall Detection
+# Arduino Nano 33 BLE Sense Rev1
+
+# Stage 1 — SVM impact pre-filter
+# Window passes only if max(SVM) >= ACC_PREFILTER
+ACC_PREFILTER  = 1.5    # g (signal-vector-magnitude threshold)
+
+# Stage 2 — Gate (logistic regression, 3 features after L1 pruning)
+# Window passes to CNN only if gate probability >= GATE_THRESHOLD
+GATE_THRESHOLD = 0.26   # tuned on combined SisFall + Arduino features
+                        # under TPR >= 0.99 constraint
+
+# Stage 3 — CNN verifier (float32 TFLite, 5.86 KB)
+# Window declared FALL only if CNN probability >= CNN_THRESHOLD
+CNN_THRESHOLD  = 0.90   # selected from validation sweep (highest F1
+                        # with sensitivity preserved on collected set)
+
+# Auxiliary parameters (from M4Live.ino)
+STILLNESS_THRESHOLD = 1.20   # g (post-impact stillness ceiling)
+STILLNESS_SAMPLES   = 50     # consecutive samples below threshold
+STILLNESS_TIMEOUT   = 500    # samples (= 5s at 100 Hz)
+COOLDOWN_MS         = 3000   # post-detection cooldown
+WINDOW_SAMPLES      = 50     # window length (= 500 ms at 100 Hz)
+PRE_PEAK_SAMPLES    = 25     # samples before the impact peak
+POST_PEAK_SAMPLES   = 25     # samples after the impact peak
+SAMPLE_RATE_HZ      = 100
