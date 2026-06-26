@@ -1,5 +1,5 @@
 /*
- * Fall Detector — Live Two-Stage Pipeline
+ * Fall Detector — Live Three-Stage Pipeline
  * Arduino Nano 33 BLE Sense Rev1
  */
 

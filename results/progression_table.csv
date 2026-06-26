@@ -1,4 +1,4 @@
 version,offline_acc_pct,offline_f1,live_acc_pct,live_f1,size_kb,latency_ms,ram_kb,energy_per_event_uj
-M2 baseline (CNN only float32 TFLite),99.18,0.965,85.0,0.857,5.86,5.961,12.0,565.95
-M3 (gate + fine-tuned CNN float32 TFLite),93.38,0.697,95.0,0.947,5.90,0.035,12.0,8.97
-M4 (pre-filter + gate + CNN lateral-balanced float32 TFLite),96.17,0.821,97.5,0.974,5.90,0.035,12.0,8.97
+Baseline (CNN only float32 TFLite),99.18,0.965,85.0,0.857,5.86,5.961,12.0,565.95
++ Gate and fine-tuned CNN (float32 TFLite),93.38,0.697,95.0,0.947,5.90,0.035,12.0,8.97
++ Impact pre-filter (final, float32 TFLite),96.17,0.821,97.5,0.974,5.90,0.035,12.0,8.97

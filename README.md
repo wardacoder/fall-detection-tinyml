@@ -1,4 +1,4 @@
-# Selective Two-Stage TinyML Inference for Real-Time Fall Detection
+# Selective Three-Stage TinyML Inference for Real-Time Fall Detection
 
 On-device fall detection running entirely on an **Arduino Nano 33 BLE Sense Rev1**, with no phone, no cloud, and no connectivity required. The system was motivated by a simple real-world problem: elderly people who live alone often fall with no one nearby to respond, and most existing detectors depend on a network connection or a charged phone. This one runs standalone on a coin-sized board.
 
@@ -57,9 +57,9 @@ The system was built in stages, each one targeting the weakness of the last. Liv
 
 | Version | Live accuracy | Live F1 | Energy/event | Latency |
 |---|---|---|---|---|
-| M2 baseline (CNN only, always on) | 85.0% | 0.857 | 565.95 uJ | 5.96 ms |
-| M3 (gate + fine-tuned CNN) | 95.0% | 0.947 | 8.97 uJ | 0.035 ms |
-| M4 (pre-filter + gate + balanced CNN) | **97.5%** | **0.974** | **8.97 uJ** | **0.035 ms** |
+| Baseline (CNN only, always on) | 85.0% | 0.857 | 565.95 uJ | 5.96 ms |
+| + Gate and fine-tuned CNN | 95.0% | 0.947 | 8.97 uJ | 0.035 ms |
+| + Impact pre-filter (final) | **97.5%** | **0.974** | **8.97 uJ** | **0.035 ms** |
 
 The latency drop comes from the gate resolving the dominant path in 35 microseconds, so the CNN's 5.82 ms cost is only paid on the rare windows that reach it.
 
@@ -82,8 +82,8 @@ The latency drop comes from the gate resolving the dominant path in 35 microseco
 |-- README.md
 |-- requirements.txt
 |-- arduino/
-|   |-- M4Live/               Deployment sketch + model headers
-|   `-- M4PowerBench/         Power benchmarking sketch (INA260, 481 inferences)
+|   |-- deployment/           Deployment sketch + model headers
+|   `-- power_benchmark/      Power benchmarking sketch (INA260, 481 inferences)
 |-- notebooks/                00 to 07, full pipeline from raw data to deployable model
 |-- models/                   Keras source, deployed .tflite, gate C header, thresholds
 |-- data/
@@ -92,7 +92,7 @@ The latency drop comes from the gate resolving the dominant path in 35 microseco
 |   `-- README.md             SisFall download instructions
 `-- results/
     |-- confusion_matrices/   Offline and live
-    |-- progression_table.csv M2 to M3 to M4 metric progression
+    |-- progression_table.csv Metric progression across development stages
     `-- quantization_tradeoff.png
 ```
 
@@ -115,7 +115,7 @@ Run notebooks `00` through `07` in order. Each has a config cell at the top, so 
 
 1. Board package: Arduino Mbed OS Nano Boards v4.1.5, then select Arduino Nano 33 BLE.
 2. Libraries: `Arduino_LSM9DS1` 1.1.1 and `Arduino_TensorFlowLite` 2.4.0-ALPHA, plus `Adafruit_INA260` and `Adafruit_SSD1306` for the power bench and OLED.
-3. Open `arduino/M4Live/M4Live.ino`, flash, and open the Serial Monitor at 115200 baud.
+3. Open `arduino/deployment/deployment.ino`, flash, and open the Serial Monitor at 115200 baud.
 
 The model headers are already in the sketch folder. The conversion path from Keras to TFLite to C array lives in notebook `07`.
 

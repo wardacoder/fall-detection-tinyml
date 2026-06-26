@@ -1,5 +1,5 @@
-# M4 Deployed Pipeline Thresholds
-# Selective Two-Stage TinyML Fall Detection
+# Deployed Pipeline Thresholds
+# Selective Three-Stage TinyML Fall Detection
 # Arduino Nano 33 BLE Sense Rev1
 
 # Stage 1 — SVM impact pre-filter
@@ -16,7 +16,7 @@ GATE_THRESHOLD = 0.26   # tuned on combined SisFall + Arduino features
 CNN_THRESHOLD  = 0.90   # selected from validation sweep (highest F1
                         # with sensitivity preserved on collected set)
 
-# Auxiliary parameters (from M4Live.ino)
+# Auxiliary parameters (from deployment.ino)
 STILLNESS_THRESHOLD = 1.20   # g (post-impact stillness ceiling)
 STILLNESS_SAMPLES   = 50     # consecutive samples below threshold
 STILLNESS_TIMEOUT   = 500    # samples (= 5s at 100 Hz)
